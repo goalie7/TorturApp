@@ -1,6 +1,8 @@
 package login;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -25,32 +27,47 @@ import perez.marcos.torturapp.R;
 
 public class Login extends Activity {
 
+    private static final String FILE = "logged";
     private TwitterLoginButton loginButton;
-    SharedPreferences sp;
+    private SharedPreferences sp;
 
     // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "VnyLBPHJBps36Oh4YOJpjarnM";
     private static final String TWITTER_SECRET = "jUy7Br9MLVzSrub0W28qsSnjNLQqswnbVYNN1QVFgh2Eg54QIP";
     private ImageView mail;
-    private ImageView twitter;
-    private ImageView facebook;
     Button bLogin;
     UserHelper uh;
     EditText tv_user;
     EditText tv_pass;
+    Intent i;
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sp = getSharedPreferences(FILE, Context.MODE_PRIVATE);
+        String s = sp.getString("logged", null);
+        if(s != null) {
+            i = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(i);
+        }
         TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
         Fabric.with(this, new Twitter(authConfig));
+
         setContentView(R.layout.activity_login);
+
         mail = (ImageView) findViewById(R.id.mail);
         bLogin = (Button) findViewById(R.id.buttonLogin);
         tv_pass = (EditText) findViewById(R.id.editText2);
         tv_user = (EditText) findViewById(R.id.editText);
-        loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
 
+        //LOGIN VIA TWITTER
+        loginButton = (TwitterLoginButton) findViewById(R.id.twitter_login_button);
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -58,26 +75,20 @@ public class Login extends Activity {
                 //Guardar el username en la base de datos de logeados.
                 //Crear un usuario sin contraseña en la base de datos de usuarios.
                 //TODO CREAR PERFIL E INTRODUCIR EN BD COMO LOGGED
-                if(result!= null) Log.v("result", result.data.getUserName());
-                else Log.v("result", "RESULT NULL");
-                if(result.response == null){
-                        Log.v("response","RESPONSE NULL");
-                }
+                if(result== null) Log.v("result", null);
                 else {
-                    Log.v("response", "Reason: " + result.response.getReason());
-                    Log.v("response", "URL: " + result.response.getUrl());
-                    Log.v("response", "BODY: " + result.response.getBody());
-                    Log.v("response", "HEADERS: " + result.response.getHeaders());
-                    Log.v("response", "STATUS: " + result.response.getStatus());
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("logged", result.data.getUserName());
+                    editor.apply();
+                    i = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(i);
                 }
-                Intent i = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(i);
             }
 
             @Override
             public void failure(TwitterException exception) {
                 // Do something on failure
-                Toast.makeText(getApplicationContext(), "PROBLEMO", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "PROBLEMO", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -110,6 +121,10 @@ public class Login extends Activity {
             //startActivity(intent);
             Toast.makeText(getApplicationContext(), "LOGIN CORRECTO", Toast.LENGTH_SHORT).show();
             i = new Intent(getApplicationContext(), MainActivity.class);
+
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putString("logged",user);
+            editor.apply();
             startActivity(i);
         } else {
             i = new Intent(getApplicationContext(), LoginIncorrecto.class);
@@ -130,7 +145,6 @@ public class Login extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;

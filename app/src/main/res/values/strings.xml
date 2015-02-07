@@ -37,7 +37,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="action_example">Acción de ejemplo</string>
     <string name="action_settings">Ajustes</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">TorturApp</string>
     <string name="title_activity_login">Login</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login_incorrecto">LoginIncorrecto</string>

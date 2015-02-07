@@ -23,30 +23,27 @@
 
         <activity
             android:name="login.Login"
+            android:theme="@style/NoActionBar"
             android:label="@string/title_activity_login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="login.LoginIncorrecto"
+            android:theme="@style/NoActionBar"
             android:label="@string/title_activity_login_incorrecto" >
         </activity>
         <activity
             android:name="login.Registro"
+            android:theme="@style/NoActionBar"
             android:label="@string/title_activity_registro" >
         </activity>
 
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="65d7aca3dad74dfd9ce6c86951f7c5e655733b5f" />
-
-        <activity
-            android:name="login.LoginFacebook"
-            android:label="@string/title_activity_login_facebook_fragment" >
-        </activity>
     </application>
 
 </manifest>

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -42,8 +44,7 @@ public class MainActivity extends Activity
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
-        Log.v("NavigationDrawer4", "posicio: " + position);
-        Fragment f;
+        Fragment f = null;
         if (position == 0) {
             f = new CalculadoraFragment();
         } else if (position == 1) {
@@ -55,14 +56,21 @@ public class MainActivity extends Activity
         } else if (position == 4) {
             //ranking
             f = new ReproductorFragment();
-        } else {
+        } else if (position == 5){
             //logout
-            f = new ReproductorFragment();
+            SharedPreferences sp = getSharedPreferences("logged", Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit = sp.edit();
+            edit.remove("logged");
+            edit.commit();
+            //f = new ReproductorFragment();
         }
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, f)
-                .commit();
-        onSectionAttached(position);
+        if(f == null) finish();
+        else {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container, f)
+                    .commit();
+            onSectionAttached(position);
+        }
     }
 
     public void onSectionAttached(int number) {

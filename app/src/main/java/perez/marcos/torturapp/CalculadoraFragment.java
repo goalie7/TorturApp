@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -76,7 +75,6 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_calculadora, container, false);
         getActivity().setTitle(R.string.title_section1);
-        Log.i("hue", "OCV ");
 
 
         tv = (TextView) rootView.findViewById(R.id.textView6);
@@ -222,7 +220,6 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
         Button press = (Button) v;
         String s = press.getText().toString();
         String curr = tv.getText().toString(); //tot el text
-        Log.v("hue", "DATA EN SWITCH: " + value + " " + mem + " " + op + " " + result + " " + ans + " TV TEXT " + tv.getText().toString());
         if (!result) tv.setTextColor(-7829368);
         switch (s) { //lo que acabamos de pulsar
             case "=":
@@ -261,11 +258,9 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
                 break;
             case "M":
                 if (esNum(curr)) mem = Double.parseDouble(curr);
-                Log.i("memory", "Guardado " + mem);
                 break;
             case "MC":
                 if (esNum(curr)) mem = Double.parseDouble(curr);
-                Log.i("memory", "Limpiado " + mem);
                 mem = 0;
                 break;
             case "MR":
@@ -292,8 +287,6 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
                     CharSequence y = x.subSequence(0, x.length() - 1);
                     if (y.toString().isEmpty()) y = "0";
                     tv.setText(y);
-                    Log.i("CE", "x:" + x.toString());
-                    Log.i("CE", "y: " + y.toString());
                 }
                 break;
             default: //hemos pulsado un numero
@@ -305,7 +298,6 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
                     default: //es simbolo o numero largo
                         if (esNum(curr) && !result) {
                             tv.setText(tv.getText() + s);
-                            Log.i("tv", tv.getText() + "");
                         } else { //es simbolo o resultado
                             tv.setTextColor(-7829368);
                             tv.setText(s);
@@ -346,14 +338,12 @@ public class CalculadoraFragment extends Fragment implements View.OnClickListene
                 break;
         }
         ans = value;
-        Log.i("ans", "ANS ES " + ans);
     }
 
     private boolean esNum(String s) {
         try {
             Double.parseDouble(s);
         } catch (NumberFormatException e) {
-            Log.i("esnum", "No es num: " + s);
             return false;
         }
         return true;
