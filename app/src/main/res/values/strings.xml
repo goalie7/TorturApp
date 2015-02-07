@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TorturApp</string>
+    <!-- Títulos -->
+    <string name="title_section1">Calculadora</string>
+    <string name="title_section2">Memory</string>
+    <string name="title_section3">Perfil</string>
+    <string name="title_section4">Reproductor</string>
+    <string name="title_section5">Ranking</string>
+    <string name="title_section6">Logout</string>
+
+    <!-- Dialog no debería usarse esto así -->
+    <string name="titleDialog">Título Dialog</string>
+    <string name="yesButton">Si</string>
+    <string name="noButton">No</string>
+    <string name="neutralButton">Cerrar app</string>
+
+    <!-- Array navigation drawer -->
+    <string-array name="menu">
+        <item>Calculadora</item>
+        <item>Memory</item>
+        <item>Perfil</item>
+        <item>Reproductor</item>
+        <item>Ranking</item>
+        <item>Logout</item>
+    </string-array>
+    <!-- Cosas del drawer -->
+    <string name="title_activity_shared_pref">SharedPref</string>
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Cerrar</string>
+    <string name="navigation_drawer_open">Abrir</string>
+    <string name="navigation_drawer_close">Cerrar</string>
+
+    <!-- ????????????????????????????????????? -->
+    <string name="title_activity_profile_fragment">ProfileFragment</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_example">Acción de ejemplo</string>
+    <string name="action_settings">Ajustes</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_login_incorrecto">LoginIncorrecto</string>
+    <string name="title_activity_registro">Registro</string>
+
+    <!-- DialogList -->
+    <string name="from_camera">Desde la cámara</string>
+    <string name="from_gallery">Desde la galería</string>
+
+    <!-- Login -->
+    <string name="reg">Registro vía mail:</string>
+    <string name="logt">Login vía twitter:</string>
+    <string name="logf">Login vía facebook:</string>
+
+    <!-- Login incorrecto -->
+    <string name="tryagain">Reintentar</string>
+    <string name="incorrect">Login incorrecto</string>
+
+    <!-- Registro -->
+    <string name="reg_email">Correo:*</string>
+    <string name="reg_user">Usuario:*</string>
+    <string name="reg_pass">Contraseña:*</string>
+    <string name="reg_pass2">Confirmar contraseña:*</string>
+    <string name="reg_address">Dirección</string>
+    <string name="reg_avatar">Avatar</string>
+    <string name="reg_note">*Campo obligatorio</string>
+    <string name="reg_me">Registrarme</string>
+    <string name="user">Usuario</string>
+    <string name="pass">Contraseña</string>
+    <string name="login">Iniciar sesión</string>
+    <string name="title_activity_login_facebook_fragment">LoginFacebookFragment</string>
+
+</resources>

@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools" tools:context="perez.marcos.aplicacion.Calc1">
+
+    <item android:id="@+id/notifications" android:title="Notificaciones"
+          android:orderInCategory="0" android:showAsAction="ifRoom" android:icon="@drawable/noti">
+        <menu>
+            <item android:id="@+id/toast" android:title="Toast" android:checkable="true" android:checked="true"></item>
+            <item android:id="@+id/not" android:title="Dialog" android:checkable="true" android:checked="false"></item>
+        </menu>
+    </item>
+    <item android:id="@+id/call" android:title="Llamar"
+          android:orderInCategory="0" android:showAsAction="ifRoom" android:icon="@drawable/call"/>
+
+    <item android:id="@+id/browser" android:title="Navegador"
+          android:orderInCategory="0" android:showAsAction="ifRoom" android:icon="@drawable/brow"/>
+</menu>
