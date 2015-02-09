@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,8 +23,6 @@ import extras.MyDialogList;
 import extras.UserHelper;
 import perez.marcos.torturapp.R;
 
-import java.io.File;
-
 
 public class Registro extends Activity{
     ImageView img;
@@ -35,13 +33,22 @@ public class Registro extends Activity{
     TextView tv_address;
     MyDialogList MDL;
     String photoPath = null;
-    Uri u;
+    Bitmap thumbnail ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registro);
-        Log.v("ONC","ON CREATE ");
+
+        img = (ImageView) findViewById(R.id.avatar);
+        if (savedInstanceState != null) photoPath = savedInstanceState.getString("path",null);
+        if (photoPath == null){
+            img.setImageDrawable(getResources().getDrawable(R.drawable.avatar));
+        }
+        else {
+            thumbnail = BitmapFactory.decodeFile(photoPath);
+            img.setImageBitmap(thumbnail);
+        }
         tv_mail = (TextView) findViewById(R.id.mail);
         tv_user = (TextView) findViewById(R.id.username);
         tv_pass = (TextView) findViewById(R.id.pass);
@@ -50,15 +57,13 @@ public class Registro extends Activity{
 
         //evita que se abra el teclado al inciarse la activity
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        img = (ImageView) findViewById(R.id.avatar);
-
     }
+
 
     public void dialog(View v) {
         FragmentManager fm = getFragmentManager();
         MDL = new MyDialogList();
-        MDL.show(fm, "abc");
+        MDL.show(fm, "tag");
     }
 
     @Override
@@ -74,12 +79,10 @@ public class Registro extends Activity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -92,13 +95,10 @@ public class Registro extends Activity{
         String address = tv_address.getText().toString();
 
         if (!mail.contains("@")) {
-            //TOAST
             Toast.makeText(getApplicationContext(), "No es un mail valido", Toast.LENGTH_SHORT).show();
         } else if (!pass.equals(pass2)) {
-            //TOAST
             Toast.makeText(getApplicationContext(), "Las contraseñas no son iguales", Toast.LENGTH_SHORT).show();
         } else if (username.equals("")) {
-            //TOAST no vacío
             Toast.makeText(getApplicationContext(), "Nombre de usuario no puede ser vacío", Toast.LENGTH_SHORT).show();
         } else {
             valuesToStore.put("username", username);
@@ -125,11 +125,9 @@ public class Registro extends Activity{
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 0:
-                        Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
                         photoPath = getLastPhoto();
-                        img = (ImageView) findViewById(R.id.avatar);
+                        thumbnail = BitmapFactory.decodeFile(photoPath);
                         img.setImageBitmap(thumbnail);
-                        Toast.makeText(this, "FOTO TOMADA GUARDADA, URI : " + photoPath, Toast.LENGTH_LONG).show();
                    break;
                 case 1:
                         Uri pickedImage = data.getData();
@@ -138,16 +136,15 @@ public class Registro extends Activity{
                         cursor.moveToFirst();
                         photoPath = cursor.getString(cursor.getColumnIndex(filePath[0]));
                         // Now we need to set the GUI ImageView data with data read from the picked file.
-                        img = (ImageView) findViewById(R.id.avatar);
-                        img.setImageBitmap(BitmapFactory.decodeFile(photoPath));
+                        thumbnail = BitmapFactory.decodeFile(photoPath);
+                        img.setImageBitmap(thumbnail);
                         // At the end remember to close the cursor or you will end with the RuntimeException!
                         cursor.close();
-                        Toast.makeText(this, "FOTO PICKEADA DE GALERÍA, URI : " + photoPath, Toast.LENGTH_LONG).show();
                     break;
             }
         }
         else {
-            Toast.makeText(this, "RESULT NO OK", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.error_camera, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -160,7 +157,6 @@ public class Registro extends Activity{
         do {
             fullPath = imageCursor.getString(imageCursor.getColumnIndex(MediaStore.Images.Media.DATA));
             if (fullPath.contains("DCIM")) {
-                //--last image from camera --
                 break;
             }
         }
@@ -171,33 +167,7 @@ public class Registro extends Activity{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //TODO GUARDAR AQUI EL CAMINO DE LA IMAGEN Y TAL
-        Log.v("photo","OSI");
-        if (photoPath != null) {
-            outState.putString("path",photoPath);
-            Log.v("photo","Saved photo path");
-        }
+        outState.putString("path",photoPath);
     }
 
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        Log.v("photo","ORI");
-        photoPath = savedInstanceState.getString("path",null);
-        Log.v("photo","ORI : " + photoPath);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (photoPath != null) {
-            Log.v("photo","PHOTO PATH : "+ photoPath);
-            Bitmap myBitmap = BitmapFactory.decodeFile(photoPath);
-            img = (ImageView) findViewById(R.id.avatar);
-            img.setImageBitmap(myBitmap);
-        }
-        else {
-            Log.v("photo","PHOTO PATH IS NULL");
-        }
-    }
 }

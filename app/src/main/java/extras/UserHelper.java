@@ -58,7 +58,7 @@ public class UserHelper extends SQLiteOpenHelper {
         );
         if (mCursor.moveToFirst()) {
             String s = mCursor.getString(mCursor.getColumnIndex("pass"));
-            Log.i("LOGIN", "EXISTE EL USUARIO Y SU PASS ES : " + s + " y LA INTRODUCIDA ES :" + pass);
+//            Log.i("LOGIN", "EXISTE EL USUARIO Y SU PASS ES : " + s + " y LA INTRODUCIDA ES :" + pass);
             if (s.equals(pass)) return true;
             else return false;
         } else {
@@ -114,14 +114,30 @@ public class UserHelper extends SQLiteOpenHelper {
         );
         if (mCursor.moveToFirst()) {
             return true;
-            /* record exist */
         } else {
-//            Log.i("userbd", "No Existe user:  " + where[0]);
             return false;
-            /* record not exist */
         }
     }
 
+    public Cursor getUser(String user){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String[] names = {"username"};
+        String[] where = {user};
+        Cursor mCursor = db.query(
+                USER_TABLE,
+                names,
+                "username=?",
+                where,
+                null,
+                null,
+                null
+        );
+        if (mCursor.moveToFirst()) {
+            return mCursor;
+        } else {
+            return null;
+        }
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {

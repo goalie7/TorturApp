@@ -69,5 +69,12 @@
     <string name="pass">Contraseña</string>
     <string name="login">Iniciar sesión</string>
     <string name="title_activity_login_facebook_fragment">LoginFacebookFragment</string>
+    <string name="error_camera">Error, realice otra vez la foto o cambie de aplicación.</string>
+    <string name="record">Récord</string>
+    <string name="direccion">Dirección</string>
+    <string name="button_direccion">Modificar dirección</string>
+    <string name="gps">GPS</string>
+    <string name="coord1">C1</string>
+    <string name="coord2">C2</string>
 
 </resources>
