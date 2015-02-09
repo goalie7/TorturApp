@@ -23,8 +23,7 @@ public class UserHelper extends SQLiteOpenHelper {
 
     //sentencia global de cracion de la base de datos
     public static final String USER_TABLE_CREATE = "CREATE TABLE " + USER_TABLE + " (username TEXT UNIQUE, " +
-            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER, avatar BLOB);";
-
+            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER, avatar TEXT);";
 
     public UserHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -121,8 +120,8 @@ public class UserHelper extends SQLiteOpenHelper {
             return false;
             /* record not exist */
         }
-
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i2) {

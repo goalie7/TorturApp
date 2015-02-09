@@ -1,17 +1,27 @@
 package extras;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.ActivityNotFoundException;
+import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import perez.marcos.torturapp.R;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
-public class MyDialogList extends DialogFragment {
+public class MyDialogList extends DialogFragment{
+
     public static MyDialogList newInstance(ArrayList<String> x) {
         return new MyDialogList();
     }
@@ -30,15 +40,17 @@ public class MyDialogList extends DialogFragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        Toast.makeText(getActivity(), "DESDE CAMARA", Toast.LENGTH_SHORT).show();
+                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE_SECURE);
+                        getActivity().startActivityForResult(takePictureIntent,0);
                         break;
                     case 1:
-                        Toast.makeText(getActivity(), "DESDE GALERÍA", Toast.LENGTH_SHORT).show();
+                        Intent i = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        getActivity().startActivityForResult(i,1);
                         break;
                 }
             }
         });
-
         return b.create();
     }
 }

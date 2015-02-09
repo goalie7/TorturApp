@@ -1,11 +1,7 @@
 package perez.marcos.torturapp;
 
 import android.app.Fragment;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
-import android.content.SharedPreferences;
+import android.content.*;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
@@ -13,16 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
-import java.io.IOException;
-
+import android.widget.Toast;
 import extras.MyBoundService;
 
 
 /**
  * @author Carles Guivernau
  */
-public class ReproductorFragment extends Fragment implements View.OnClickListener {
+public class ReproductorFragment extends Fragment implements View.OnClickListener{
     MyBoundService bService = null;
     boolean bound = false;
     boolean play;
@@ -30,6 +24,10 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
     ImageView stop;
     public static final String FILE = "reproductor";
     Intent intent;
+    IntentFilter filter;
+
+
+    BroadcastReceiver receiver;
 
     public ServiceConnection connection = new ServiceConnection() {
         @Override
@@ -68,14 +66,27 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().registerReceiver(receiver,filter);
+    }
+
+    @Override
+
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(receiver);
+    }
+
+    @Override
     public void onStop() {
         super.onStop();
-//        SharedPreferences sp = this.getActivity().getSharedPreferences(FILE, Context.MODE_PRIVATE);
         SharedPreferences sp = this.getActivity().getSharedPreferences(FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.putBoolean("play", play);
         editor.commit();
     }
+
 
 
     @Override
@@ -87,6 +98,19 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
         played = (ImageView) rootView.findViewById(R.id.button);
         stop.setOnClickListener(this);
         played.setOnClickListener(this);
+
+        filter = new IntentFilter();
+        filter.addAction("perez.marcos.torturapp.extras.FINISH");
+        getActivity().registerReceiver(receiver, filter);
+        receiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Log.v("mp", "RECIBIMOS BROADCAST");
+                Toast.makeText(getActivity(), "Cancion finalizada", Toast.LENGTH_LONG).show();
+                play = false;
+                makePlay();
+            }
+        };
 
         //intent = new Intent("BOUNDSERVICE");
         intent = new Intent(getActivity(), MyBoundService.class);
@@ -104,7 +128,6 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
         return rootView;
     }
 
-
     private void makeStop() {
         stop.setImageResource(R.drawable.stop);
     }
@@ -120,9 +143,9 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().stopService(intent);
         SharedPreferences sp = this.getActivity().getSharedPreferences(FILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
-        editor.commit();
+        editor.apply();
+        getActivity().unbindService(connection);
     }
 }

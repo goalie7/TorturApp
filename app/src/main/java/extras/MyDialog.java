@@ -16,6 +16,8 @@ public class MyDialog extends DialogFragment {
         return frag;
     }
 
+
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())

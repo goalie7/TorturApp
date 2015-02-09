@@ -7,6 +7,7 @@ import android.os.Binder;
 import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
+import perez.marcos.torturapp.ReproductorFragment;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,8 @@ import java.io.IOException;
  * Created by Marcos on 03/02/2015.
  */
 public class MyBoundService extends Service {
+
+    public static final String INTENT_FINISH = "perez.marcos.torturapp.extras.FINISH";
 
     private final IBinder binder = new MyBinder();
     MediaPlayer mediaPlayer;
@@ -54,6 +57,7 @@ public class MyBoundService extends Service {
         if (!stop) {
             stop = true;
             mediaPlayer.stop();
+            mediaPlayer.reset();
             mediaPlayer.release();
         }
     }
@@ -67,6 +71,16 @@ public class MyBoundService extends Service {
 
     public void init() throws IOException {
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                Intent i = new Intent();
+                i.putExtra("finish",true);
+                i.setAction(INTENT_FINISH);
+                stop();
+                sendBroadcast(i);
+            }
+        });
         mediaPlayer.setDataSource(song.getAbsolutePath());
         mediaPlayer.prepare();
     }
@@ -86,7 +100,7 @@ public class MyBoundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        //TODO ESTO PUEDE PETAR HARD
+        mediaPlayer.reset();
         mediaPlayer.release();
     }
 
