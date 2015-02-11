@@ -23,7 +23,7 @@ public class UserHelper extends SQLiteOpenHelper {
 
     //sentencia global de cracion de la base de datos
     public static final String USER_TABLE_CREATE = "CREATE TABLE " + USER_TABLE + " (username TEXT UNIQUE, " +
-            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER, avatar TEXT);";
+            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER DEFAULT, avatar TEXT);";
 
     public UserHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -58,13 +58,10 @@ public class UserHelper extends SQLiteOpenHelper {
         );
         if (mCursor.moveToFirst()) {
             String s = mCursor.getString(mCursor.getColumnIndex("pass"));
-//            Log.i("LOGIN", "EXISTE EL USUARIO Y SU PASS ES : " + s + " y LA INTRODUCIDA ES :" + pass);
             if (s.equals(pass)) return true;
             else return false;
         } else {
-            //Log.i("userbd", "No Existe user:  " + where[0]);
             return false;
-            /* record not exist */
         }
     }
 
@@ -147,16 +144,10 @@ public class UserHelper extends SQLiteOpenHelper {
         return db.update(USER_TABLE,c,"username=?",where);
     }
 
-    public Cursor updateRecord(String user, int intentos){
-        /*
-        //TODO si intentos < actuales then sobreescribir
+    public void updateRecord(String user, int intentos){
         SQLiteDatabase db = this.getWritableDatabase();
-        String[] where = {user};
-        ContentValues c = new ContentValues();
-        c.put("best",intentos);
-        return db.update(USER_TABLE,c,"username=?",where);
-        */
-        return null;
+        db.execSQL("UPDATE " + USER_TABLE + " SET best = 'intentos' WHERE username = 'user' AND best > 'intentos';");
+        Log.v("exec","ejecutado");
     }
 
 

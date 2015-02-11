@@ -3,7 +3,9 @@ package perez.marcos.torturapp;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -20,12 +22,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import extras.MyDialogList;
 import extras.MyDialogWin;
+import extras.UserHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
 public class MemoryFragment extends Fragment implements View.OnClickListener, MyDialogWin.win {
+    UserHelper uh;
     boolean select;
     Integer intentos;
     Integer lastimg;
@@ -58,14 +62,14 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
     private Integer resID;
     private String front = "front";
     private String back = "back";
-
+    SharedPreferences sp;
+    String logged;
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.menu_mem, menu);
-        Log.v("INF","INFLAMOS");
     }
 
     @Override
@@ -84,6 +88,9 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_layout2, container, false);
         getActivity().setTitle(R.string.title_section2);
+        SharedPreferences sp = this.getActivity().getSharedPreferences("logged", Context.MODE_PRIVATE);
+        logged = sp.getString("logged",null);
+        uh = new UserHelper(getActivity().getApplicationContext());
         inte = (TextView) rootView.findViewById(R.id.textView13);
         c00 = (ImageView) rootView.findViewById(R.id.c00);
         c01 = (ImageView) rootView.findViewById(R.id.c01);
@@ -140,9 +147,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
     public void onClick(View v) {
         Integer x = relations.get(v);
         aux = (ImageView) v;
-        Log.v("drawables","Aux: " + aux.getDrawable() + " Resources : " + getResources().getDrawable(R.drawable.backcard));
          if (!pause && (!aux.getTag().equals(front))){
-            Log.v("clicked", String.valueOf(v.getId()));
             if (!select) {
                 aux.setImageResource(x);
                 aux.setTag(front);
@@ -161,6 +166,7 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
                         FragmentManager fm = getFragmentManager();
                         MDW = new MyDialogWin();
                         MDW.setTargetFragment(this,0);
+                        uh.updateRecord(logged, intentos);
                         MDW.show(fm, "tag");
                     }
                 } else {
@@ -279,8 +285,6 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
             imgs.add(R.drawable.asbastos);
             imgs.add(R.drawable.asespadas);
             imgs.add(R.drawable.asoros);
-            for (int i : imgs)
-                Log.v("array",i+"");
             return null;
         }
 
@@ -312,7 +316,6 @@ public class MemoryFragment extends Fragment implements View.OnClickListener, My
                 int j = 1;
                 while(j >= 0){
                     int randomInt = randomGenerator.nextInt(cards.size());
-                    Log.v("Generado", "Generado random : " + randomInt);
                     relations.put(cards.get(randomInt),imgs.iterator().next());
                     cards.remove(randomInt);
                     --j;

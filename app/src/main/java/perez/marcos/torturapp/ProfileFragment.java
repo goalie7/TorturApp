@@ -49,9 +49,7 @@ public class ProfileFragment extends Fragment implements OnClickListener, Locati
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.v("CHIV","OCV");
         View rootView = inflater.inflate(R.layout.fragment_profile, container, false);
-
         getActivity().setTitle(R.string.title_section3);
         uh = new UserHelper(getActivity().getApplicationContext());
         sp = this.getActivity().getSharedPreferences("logged", Context.MODE_PRIVATE);
@@ -97,7 +95,6 @@ public class ProfileFragment extends Fragment implements OnClickListener, Locati
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.v("OSI","LELELELEL");
         SharedPreferences.Editor edit = sp.edit();
         outState.putString("path",photoPath);
         edit.putBoolean("state",state);
@@ -159,7 +156,6 @@ public class ProfileFragment extends Fragment implements OnClickListener, Locati
     }
 
     private void changeState() {
-        Log.v("STATE", "CHANGE STATE: " + state);
         gps.setChecked(state);
         if (state) {
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);

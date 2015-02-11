@@ -105,7 +105,6 @@ public class ReproductorFragment extends Fragment implements View.OnClickListene
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.v("mp", "RECIBIMOS BROADCAST");
                 Toast.makeText(getActivity(), "Cancion finalizada", Toast.LENGTH_LONG).show();
                 play = false;
                 makePlay();
