@@ -6,7 +6,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 /**
  * Created by Marcos on 02/02/2015.
@@ -23,7 +22,7 @@ public class UserHelper extends SQLiteOpenHelper {
 
     //sentencia global de cracion de la base de datos
     public static final String USER_TABLE_CREATE = "CREATE TABLE " + USER_TABLE + " (username TEXT UNIQUE, " +
-            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER DEFAULT, avatar TEXT);";
+            "mail TEXT UNIQUE, pass TEXT, address TEXT, best INTEGER, avatar TEXT);";
 
     public UserHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -82,14 +81,9 @@ public class UserHelper extends SQLiteOpenHelper {
         );
 
         if (mCursor.moveToFirst()) {
-//            Log.i("userbd", "Existe mail " + where + " CURSOR: " + mCursor.getString(mCursor.getColumnIndex("username")));
-//            Log.i("count", "COUNT mail: " + mCursor.getCount()+ "CONTENIDO : " + mCursor.getString(mCursor.getColumnIndex("mail")));
             return true;
-            /* record exist */
         } else {
-            Log.i("userbd", "No existe mail " + mail);
             return false;
-            /* record not exist */
         }
 
     }
@@ -145,9 +139,17 @@ public class UserHelper extends SQLiteOpenHelper {
     }
 
     public void updateRecord(String user, int intentos){
+        //Código que he intentado usar para actualizar según intentos < de lo que haya
+        /*
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("UPDATE " + USER_TABLE + " SET best = 'intentos' WHERE username = 'user' AND best > 'intentos';");
-        Log.v("exec","ejecutado");
+        ContentValues c = new ContentValues();
+        c.put("best",intentos);
+        String[] where = {String.valueOf(intentos),user};
+        return db.update(USER_TABLE,c, "best >? AND username=?",where);
+        */
+        SQLiteDatabase db = this.getWritableDatabase();
+        //return db.update(USER_TABLE,c, "best >? AND username=?",where);
+        db.execSQL("UPDATE " + USER_TABLE + " SET best = " + intentos + " WHERE username = 'user' AND best > " + intentos + ";");
     }
 
 

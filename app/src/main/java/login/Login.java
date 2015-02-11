@@ -73,11 +73,7 @@ public class Login extends Activity {
         loginButton.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                // Do something with result, which provides a TwitterSession for making API calls
-                //Guardar el username en la base de datos de logeados.
-                //Crear un usuario sin contraseña en la base de datos de usuarios.
-                //TODO CREAR PERFIL E INTRODUCIR EN BD COMO LOGGED
-                if(result== null) Log.v("result", null);
+                         if(result== null) Log.v("result", null);
                 else {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("logged", result.data.getUserName());
