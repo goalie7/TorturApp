@@ -1,17 +1,18 @@
 package perez.marcos.torturapp;
 
-import android.app.Activity;
-;
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v4.widget.DrawerLayout;
+
+;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -41,6 +42,11 @@ public class MainActivity extends Activity
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
         FragmentManager fragmentManager = getFragmentManager();
@@ -55,7 +61,7 @@ public class MainActivity extends Activity
             f = new ReproductorFragment();
         } else if (position == 4) {
             //ranking
-            f = new ReproductorFragment();
+            f = new RankingFragment();
         } else if (position == 5){
             //logout
             SharedPreferences sp = getSharedPreferences("logged", Context.MODE_PRIVATE);

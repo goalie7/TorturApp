@@ -2,6 +2,7 @@ package login;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +51,7 @@ public class Login extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        uh = new UserHelper(getApplicationContext());
         sp = getSharedPreferences(FILE, Context.MODE_PRIVATE);
         String s = sp.getString("logged", null);
         if(s != null) {
@@ -80,6 +82,9 @@ public class Login extends Activity {
                     SharedPreferences.Editor editor = sp.edit();
                     editor.putString("logged", result.data.getUserName());
                     editor.apply();
+                    ContentValues c = new ContentValues();
+                    c.put("username",result.data.getUserName());
+                    uh.createUser(c);
                     i = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(i);
                 }
@@ -114,7 +119,6 @@ public class Login extends Activity {
     public void tryLogin(View v) {
         String user = tv_user.getText().toString();
         String pass = tv_pass.getText().toString();
-        uh = new UserHelper(getApplicationContext());
         Intent i;
         if (uh.login(user, pass)) {
             //Intent intent = new Intent(getApplicationContext(),Calc1.class);

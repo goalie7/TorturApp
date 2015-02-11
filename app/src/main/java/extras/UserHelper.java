@@ -121,13 +121,13 @@ public class UserHelper extends SQLiteOpenHelper {
 
     public Cursor getUser(String user){
         SQLiteDatabase db = this.getReadableDatabase();
-        String[] names = {"username"};
+        String[] names = {"username","mail","pass","address","best","avatar"};
         String[] where = {user};
         Cursor mCursor = db.query(
-                USER_TABLE,
-                names,
-                "username=?",
-                where,
+                USER_TABLE, //qué tabla?
+                names,      //que cosas
+                "username=?", //check
+                where,      //coincida
                 null,
                 null,
                 null
@@ -137,6 +137,35 @@ public class UserHelper extends SQLiteOpenHelper {
         } else {
             return null;
         }
+    }
+
+    public int updateAddress(String user, String address){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] where = {user};
+        ContentValues c = new ContentValues();
+        c.put("address", address);
+        return db.update(USER_TABLE,c,"username=?",where);
+    }
+
+    public Cursor updateRecord(String user, int intentos){
+        /*
+        //TODO si intentos < actuales then sobreescribir
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] where = {user};
+        ContentValues c = new ContentValues();
+        c.put("best",intentos);
+        return db.update(USER_TABLE,c,"username=?",where);
+        */
+        return null;
+    }
+
+
+    public int updateImage(String user, String path){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String[] where = {user};
+        ContentValues update = new ContentValues();
+        update.put("avatar",path);
+        return db.update(USER_TABLE,update,"username=?",where);
     }
 
     @Override

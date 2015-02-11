@@ -61,20 +61,21 @@
     <string name="reg_user">Usuario:*</string>
     <string name="reg_pass">Contraseña:*</string>
     <string name="reg_pass2">Confirmar contraseña:*</string>
-    <string name="reg_address">Dirección</string>
+    <string name="reg_address">Dirección:</string>
     <string name="reg_avatar">Avatar</string>
     <string name="reg_note">*Campo obligatorio</string>
     <string name="reg_me">Registrarme</string>
-    <string name="user">Usuario</string>
-    <string name="pass">Contraseña</string>
+    <string name="user">Usuario: </string>
+    <string name="pass">Contraseña: </string>
     <string name="login">Iniciar sesión</string>
-    <string name="title_activity_login_facebook_fragment">LoginFacebookFragment</string>
     <string name="error_camera">Error, realice otra vez la foto o cambie de aplicación.</string>
-    <string name="record">Récord</string>
-    <string name="direccion">Dirección</string>
+    <string name="record">Récord: </string>
+    <string name="direccion">Dirección: </string>
     <string name="button_direccion">Modificar dirección</string>
     <string name="gps">GPS</string>
     <string name="coord1">C1</string>
     <string name="coord2">C2</string>
+    <string name="mail">Correo: </string>
+    <string name="add_address">Especifique dirección:</string>
 
 </resources>

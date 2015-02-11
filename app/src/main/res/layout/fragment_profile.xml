@@ -10,21 +10,26 @@
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/avatar"
+                android:src="@drawable/avatar"
+                android:maxHeight="120dp"
+                android:maxWidth="120dp" android:layout_gravity="center_horizontal" android:onClick="avatar"/>
+    </LinearLayout>
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <ImageView
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:id="@+id/avatar"
-                    android:src="@drawable/avatar"
-                    android:maxHeight="120dp"
-                    android:maxWidth="120dp"/>
+                android:layout_height="0dp" android:layout_weight="1">
 
             <LinearLayout
                     android:orientation="vertical"
@@ -42,7 +47,7 @@
                             android:layout_height="match_parent"
                             android:text="@string/user"
                             android:id="@+id/username"
-                            android:textSize="16dp"/>
+                            android:textSize="16dp" android:textStyle="bold"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -63,7 +68,7 @@
                             android:layout_height="match_parent"
                             android:text="@string/record"
                             android:id="@+id/record"
-                            android:textSize="16dp"/>
+                            android:textSize="16dp" android:textStyle="bold"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -84,7 +89,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/direccion"
                             android:id="@+id/direccion"
-                            android:textSize="16dp"/>
+                            android:textSize="16dp" android:textStyle="bold"/>
 
                     <TextView
                             android:layout_width="wrap_content"
@@ -93,6 +98,21 @@
                             android:id="@+id/res_direccion"
                             android:textSize="16dp"/>
                 </LinearLayout>
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" android:layout_weight="1">
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/mail"
+                            android:id="@+id/mail" android:textSize="16dp" android:textStyle="bold"/>
+                    <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="New Text"
+                            android:id="@+id/res_mail" android:textSize="16dp"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -100,63 +120,75 @@
         <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="0dp" android:layout_weight="1" android:layout_gravity="center_horizontal"
+                android:gravity="center_vertical">
 
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/button_direccion"
-                    android:id="@+id/button_direccion"/>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content">
+                <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/button_direccion"
+                        android:id="@+id/button_direccion" style="@style/ButtonCalc"
+                        android:layout_gravity="left" android:layout_marginBottom="10dp"
+                        android:drawableLeft="@drawable/home"
+                        android:textSize="16dp" android:background="@drawable/button_calc"/>
+                <EditText
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/add" android:layout_weight="1" android:layout_gravity="center_vertical"/>
+            </LinearLayout>
 
             <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="fill_parent">
+                    android:layout_height="wrap_content" android:layout_gravity="center_horizontal">
 
-                <ToggleButton
+                <Switch
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/gps"
                         android:id="@+id/toggleButton"
                         android:checked="false"
-                        android:textOff="GPS"
-                        android:textOn="GPS"/>
+                        android:textOff="OFF"
+                        android:textOn="ON" android:layout_gravity="center_vertical" android:gravity="center_vertical"
+                        android:layout_marginBottom="10dp"/>
 
+            </LinearLayout>
+            <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_gravity="center_horizontal"
+                    android:gravity="center_vertical">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/coord1"
-                        android:id="@+id/textView11"/>
-
+                        android:id="@+id/textView11" android:layout_weight="1" android:textSize="16dp"
+                        android:textStyle="bold"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="New Text"
                         android:id="@+id/coord1"
-                        android:layout_marginLeft="3dp"/>
-
+                        android:layout_marginLeft="3dp" android:textSize="16dp"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/coord2"
                         android:id="@+id/textView12"
-                        android:layout_marginLeft="8dp"/>
-
+                        android:layout_marginLeft="8dp" android:textSize="16dp" android:textStyle="bold"/>
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         tools:text="New Text"
                         android:id="@+id/coord2"
-                        android:layout_marginLeft="3dp"/>
+                        android:layout_marginLeft="3dp" android:textSize="16dp"/>
             </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"></LinearLayout>
 
 </LinearLayout>
